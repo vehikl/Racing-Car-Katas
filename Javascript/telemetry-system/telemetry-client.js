@@ -1,26 +1,24 @@
-TelemetryClient = function() {
+class TelemetryClient {
+	constructor() {
+		this._onlineStatus = false;
+		this._diagnosticMessageResult = '';
+	}
 
-	this._onlineStatus = false;
-	this._diagnosticMessageResult = '';
-};
-
-TelemetryClient.diagnosticMessage = function () {
-	return 'AT#UD';
-};
-
-TelemetryClient.prototype = {
+	static diagnosticMessage() {
+		return 'AT#UD';
+	}
 
 	// simulate the operation on a real modem
-	_connectionEventsSimulator: function (min, max) {
+	_connectionEventsSimulator(min, max) {
 		var delta = max + 1 - min;
 		return min + Math.floor(delta * Math.random());
-	},
+	}
 
-	onlineStatus: function () {
+	onlineStatus() {
 		return this._onlineStatus;
-	},
+	}
 
-	connect: function(telemetryServerConnectionString) {
+	connect(telemetryServerConnectionString) {
 			if (typeof(telemetryServerConnectionString) === 'undefined' || telemetryServerConnectionString === '') {
 				throw 'missing telemetryServerConnectionString parameter';
 			}
@@ -29,13 +27,13 @@ TelemetryClient.prototype = {
 			var success = this._connectionEventsSimulator(1, 10) <= 8;
 
 			this._onlineStatus = success;
-	},
+	}
 
-	disconnect: function () {
+	disconnect() {
 		this._onlineStatus = false;
-	},
+	}
 
-	send: function (message) {
+	send(message) {
 		if (typeof(message) === 'undefined' || message === '')
 		{
 			throw 'missing message parameter';
@@ -64,9 +62,9 @@ TelemetryClient.prototype = {
 		}
 
 		// here should go the real Send operation (not needed for this exercise)
-	},
+	}
 
-	receive: function () {
+	receive() {
 		var  message;
 
 		if (typeof (this._diagnosticMessageResult) === 'undefined' || this._diagnosticMessageResult === '') {
@@ -85,6 +83,6 @@ TelemetryClient.prototype = {
 
 		return message;
 	}
-};
+}
 
 module.exports = TelemetryClient;
