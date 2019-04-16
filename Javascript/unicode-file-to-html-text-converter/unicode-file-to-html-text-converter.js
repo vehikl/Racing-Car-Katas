@@ -1,31 +1,25 @@
+class UnicodeFileToHtmlTextConverter {
+	constructor(fileBlob) {
+		this._fileBlob = fileBlob;
+	}
 
-
-UnicodeFileToHtmlTextConverter = function(fileBlob) {
-	this._fileBlob = fileBlob;
-};
-
-UnicodeFileToHtmlTextConverter.prototype = {
-
-	convertToHtml: function () {
-
+	convertToHtml() {
 		var fileReader = new FileReader();
 		var text;
-		fileReader.onload = function(evt) {
+		fileReader.onload = function (evt) {
 			text = evt.target.result;
 		};
 		fileReader.readAsText(this._fileBlob);
 
 		var htmlLines = this._basicHtmlEncode(text);
 		return htmlLines;
-	},
+	}
 
-	_basicHtmlEncode: function (source) {
-
+	_basicHtmlEncode(source) {
 		var stashNextCharacterAndAdvanceThePointer = function () {
 			var c = source.charAt(i);
 			i += 1;
 			return c;
-
 		};
 
 		var addANewLine = function () {
@@ -43,7 +37,6 @@ UnicodeFileToHtmlTextConverter.prototype = {
 		var convertedLine = [];
 		var characterToConvert = stashNextCharacterAndAdvanceThePointer();
 		while (i <= source.length) {
-
 			switch (characterToConvert) {
 				case '<':
 					convertedLine.push('&lt;');
@@ -59,15 +52,15 @@ UnicodeFileToHtmlTextConverter.prototype = {
 					break;
 				default:
 					pushACharacterToTheOutput();
-			}
-
-			characterToConvert = stashNextCharacterAndAdvanceThePointer();
 		}
 
-		addANewLine();
+			characterToConvert = stashNextCharacterAndAdvanceThePointer();
+	}
+
+	addANewLine();
 		result = result.join('<br />');
 		return result;
 	}
-};
+}
 
 module.exports = UnicodeFileToHtmlTextConverter;
