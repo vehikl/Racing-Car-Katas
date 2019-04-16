@@ -1,22 +1,22 @@
 
-Sensor = function() {
+class Sensor {
 
-	Sensor.Offset = function() { return 16; };
-	Sensor.SamplePressure = function() {
+	static Offset() {
+		return 16;
+	}
+
+	static SamplePressure () {
 		// placeholder implementation that simulate a real sensor in a real tire
 
 		var pressureTelemetryValue = Math.floor(6 * Math.random() * Math.random());
 		return pressureTelemetryValue;
-	};
-};
+	}
 
-Sensor.prototype = {
-
-	popNextPressurePsiValue: function () {
+	popNextPressurePsiValue() {
 		var pressureTelemetryValue = Sensor.SamplePressure();
 
 		return Sensor.Offset() + pressureTelemetryValue;
 	}
-};
+}
 
 module.exports = Sensor;
